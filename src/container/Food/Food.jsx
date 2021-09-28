@@ -12,7 +12,8 @@ class Food extends Component{
         formSave: {
             title: '',
             image: '',
-            content: ''
+            content: '',
+            time: ''
         }
     }
 
@@ -38,11 +39,25 @@ class Food extends Component{
     handleFormChange = (event) => {
         // console.log('form change', event.target) // event.target akan menunjukkan inputan mana yang dimodifikasi
         let formSaveNew = {...this.state.formSave}; // mengambil nilai state awal
+        let timeStamp = new Date().getTime(); // mendapatkan nilai waktu
+        formSaveNew['time'] = timeStamp; // mengubah value khusus target time
         formSaveNew[event.target.name] = event.target.value; // mengubah target.value berdasarkan target.name
         this.setState({
             formSave: formSaveNew
-        }, () => {
-            console.log('Value Object formSave: ', this.state.formSave); // callback
+        }
+            // , () => {
+            //     console.log('Value Object formSave: ', this.state.formSave); // callback untuk kebutuhan testing/console
+            // }
+        )
+    }
+
+    handleSubmit = () => {
+        console.log(this.state.formSave);
+        // data
+        axios.post('http://127.0.0.1:8000/api/v1/post/save-data', this.state.formSave)
+        .then((res) => {
+            this.getAllData()
+            alert('Data Inserted Successfully')
         })
     }
 
@@ -92,7 +107,7 @@ class Food extends Component{
                                 <textarea name="content" rows="3" className="form-control mt-2" onChange={this.handleFormChange} ></textarea>
                             </div>
                             <button type="reset" className="btn btn-danger">Reset</button>
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Submit</button>
                         </form>
                     </div>
                     <hr />
