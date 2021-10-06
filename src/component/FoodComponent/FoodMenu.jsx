@@ -23,7 +23,7 @@ const FoodMenu = (props) => {
                     </div>
                     <div className="row">
                         <div className="col">
-                            <button className="btn btn-primary">Edit</button>
+                            <button onClick={() => props.update(props.data)} className="btn btn-primary">Edit</button>
                             <button onClick={() => props.remove(props.data)} className="btn btn-danger">Delete</button>
                             {/* onclick={} akan mengirim data ke remove/handleRemove */}
                         </div>
